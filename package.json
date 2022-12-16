@@ -1,0 +1,28 @@
+{
+  "name": "authentication_users_consumer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "migrate:test": "sequelize db:migrate --env test",
+    "migrate:test-undo": "sequelize db:migrate:undo --env test",
+    "migrate": "sequelize db:migrate",
+    "migrate-undo": "sequelize db:migrate:undo",
+    "rabbit-migrate:test": "node ./rabbit_migrations/migrations.js --env test",
+    "rabbit-migrate": "node ./rabbit_migrations/migrations.js",
+    "test": "jest --setupFiles dotenv/config -i --coverage",
+    "test:watch": "jest --watchAll --setupFiles dotenv/config -i"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "dotenv": "^16.0.3",
+    "instances-container": "^2.0.6",
+    "jest": "^29.3.1",
+    "pg": "^8.8.0",
+    "sequelize": "^6.25.8",
+    "sequelize-cli": "^6.5.2"
+  }
+}

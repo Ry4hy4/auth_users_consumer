@@ -1,0 +1,58 @@
+name: Contionus Integration
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      rabbit:
+        image: rabbitmq:3.9.26-management-alpine
+        ports:
+        - 15672:15672
+        - 5672:5672
+      postgres:
+        image: postgres:14-alpine3.15
+        env:
+          POSTGRES_USER: developer
+          POSTGRES_PASSWORD: developer
+          POSTGRES_DB: users
+        ports:
+        - 32574:5432
+        
+    strategy:
+      matrix:
+        node-version: [14.x]
+        
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    - name: npm install migrate and test
+      run: |
+        npm install
+        npm run migrate:test
+        npm run rabbit-migrate:test
+        npm run test
+      env:
+        CI: true
+        RABBIT_URL_TEST: amqp://localhost:5672
+        RABBIT_URL: amqp://localhost:5672
+        DB_TEST: users
+        DBUSERNAME_TEST: developer
+        DBPASSWORD_TEST: developer
+        DBHOST_TEST: 127.0.0.1
+        DBPORT_TEST: 32574
+        DBDIALECT_TEST: postgres
+        DB: users
+        DBUSERNAME: developer
+        DBPASSWORD: developer
+        DBHOST: 127.0.0.1
+        DBPORT: 32574
+        DBDIALECT: postgres
