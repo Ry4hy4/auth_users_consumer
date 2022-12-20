@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: auth-users-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: auth-users-consumer
+  template:
+    metadata:
+      name: auth-users-consumer
+      labels:
+        name: auth-users-consumer
+        app: queue-consumer
+    spec:
+      volumes:
+      containers:
+        - name: auth-users-consumer
+          image: raihany4hy4/auth_users_consumer:master
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: users-postgres-env-secret
+            - secretRef:
+                name: rabbit-env-secret

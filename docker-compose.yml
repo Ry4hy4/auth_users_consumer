@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  rabbit:
+    image: rabbitmq:3.9.26-management-alpine
+    ports:
+    - 15672:15672
+    - 5672:5672
+  postgres:
+    image: postgres:14-alpine3.15
+    environment:
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: developer
+      POSTGRES_DB: users
+    ports:
+    - 32574:5432

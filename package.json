@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "migrate:test": "sequelize db:migrate --env test",
-    "migrate:test-undo": "sequelize db:migrate:undo --env test",
     "migrate": "sequelize db:migrate",
     "migrate-undo": "sequelize db:migrate:undo",
-    "rabbit-migrate:test": "node ./rabbit_migrations/migrations.js --env test",
+    "rabbit-migrate:test": "NODE_ENV=test node ./rabbit_migrations/migrations.js",
     "rabbit-migrate": "node ./rabbit_migrations/migrations.js",
     "test": "jest --setupFiles dotenv/config -i --coverage",
     "test:watch": "jest --watchAll --setupFiles dotenv/config -i"
