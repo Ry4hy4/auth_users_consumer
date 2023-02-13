@@ -10,10 +10,10 @@ const createConsummer = (channel, container) => {
             };
             return channel.nack(message, false, false);
         } catch (error) {
-            if(!message.fields.redelivered){
-                return channel.nack(message, true, true);
+            if(message.properties.headers['x-delivery-count'] >= 3){
+                return channel.nack(message, false, false);
             }
-            return channel.nack(message, false, false);
+            return channel.nack(message, true, true);
         }
     });
 };

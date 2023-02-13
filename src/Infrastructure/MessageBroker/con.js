@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const amqplib = require('amqplib');
 const RabbitCon = require('./RabbitCon');
 

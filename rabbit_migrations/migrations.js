@@ -25,13 +25,21 @@ const amqplib = require('amqplib');
     console.log(`exchange ${dead_letter_exchange} created`);
 
     await ch1.assertQueue(queue, {
+      arguments: {
+        'x-queue-type': 'quorum', 
+        'x-dead-letter-strategy': 'at-least-once', 
+        'x-overflow': 'reject-publish'
+      }, 
       deadLetterExchange: dead_letter_exchange, 
       deadLetterRoutingKey: 'users.auth'
     });
     console.log(`queue ${queue} created`);
 
     await ch1.assertQueue(dead_letter_queue, {
-      queueMode: 'lazy'
+      arguments: {
+        'x-queue-type': 'quorum', 
+        'x-quorum-initial-group-size': 1, 
+      }, 
     });
     console.log(`queue ${dead_letter_queue} created`);
 
